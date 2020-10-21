@@ -1,4 +1,4 @@
-# TabBarViewController with mid curve and button.
+# TabBar with mid curve and button.
 
 ![](demo.gif)
 
