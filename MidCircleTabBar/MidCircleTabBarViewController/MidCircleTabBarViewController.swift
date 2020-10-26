@@ -8,7 +8,10 @@
 import UIKit
 
 class MidCircleTabBarViewController: UITabBarController, MidCurveTabBarDelegate {
+    
     private let centerBarItemTag = 999
+    fileprivate let isAnimatedTabBarItemWhenSelected = true
+    
     func midCurveTabBaDidTapMidButton(midCurveTabBar: MidCurveTabBar) {
         selectedIndex = centerBarItemTag
         let homeVC = HomeViewController()
@@ -56,5 +59,24 @@ extension MidCircleTabBarViewController: UITabBarControllerDelegate{
             return false
         }
         return true
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard tabBar.items != nil, isAnimatedTabBarItemWhenSelected else { return }
+        for (index, selectedItem) in tabBar.items!.enumerated() {
+            if selectedItem == item {
+                beatAnimated(tabBar.subviews[index])
+            }
+        }
+    }
+    
+    private func beatAnimated(_ view: UIView) {
+        UIView.animate(withDuration: 0.1, animations: {
+            view.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+        }) { _ in
+            UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 3.0, options: .curveEaseInOut, animations: {
+                view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }, completion: nil)
+        }
     }
 }
